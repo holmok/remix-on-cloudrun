@@ -20,9 +20,9 @@ jobs:
           at: /home/circleci/project
       - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
-          docker-context: app/remix-app
-          path: app/remix-app
-          workspace-root: app/remix-app
+          docker-context: ./remix-app
+          path: ./remix-app
+          workspace-root: ./remix-app
           image: remix-app
           tag: v$CIRCLE_BUILD_NUM
           no_output_timeout: 20m
