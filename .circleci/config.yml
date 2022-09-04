@@ -7,18 +7,17 @@ jobs:
         - node/install:
             install-yarn: true
             node-version: '16.13'
-        - run: cd remix-app
-        - run: yarn
-        - run: yarn build
+        - run: cd remix-app && yarn
+        - run: cd remix-app && yarn build
         - persist_to_workspace:
-            root: .
+            root: /home/circleci/project
             paths:
               - remix-app
   build-image-and-push:
     executor: gcp-gcr/default
     steps:
       - attach_workspace:
-          at: .
+          at: /home/circleci/project
       - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
           docker-context: app/remix-app
