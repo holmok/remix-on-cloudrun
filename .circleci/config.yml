@@ -7,7 +7,7 @@ jobs:
         - node/install:
             install-yarn: true
             node-version: '16.13'
-        - run: cd remix-app && yarn
+        - run: cd remix-app && yarn install --frozen-lockfile
         - run: cd remix-app && yarn build
         - persist_to_workspace:
             root: /home/circleci/project
