@@ -3,22 +3,22 @@ jobs:
       docker:
         - image: 'cimg/base:stable'
       steps:
-        - run: mkdir -p app
-        - run: cd app
-        - run: git clone -b "$CIRCLE_BRANCH" "$CIRCLE_REPOSITORY_URL"
+        - checkout
         - node/install:
             install-yarn: true
             node-version: '16.13'
         - run: yarn build
         - persist_to_workspace:
-            root: app
+            root: .
             paths:
               - remix-app
   build-image-and-push:
     executor: gcp-gcr/default
+    requires:
+      - build-app
     steps:
       - attach_workspace:
-          at: app
+          at: .
       - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
           docker-context: app/remix-app
@@ -46,4 +46,5 @@ workflows:
     jobs:
       - build-app
       - build-image-and-push
+
 
