@@ -8,21 +8,17 @@ jobs:
           docker-context: ./remix-app
           path: ./remix-app
           workspace-root: ./remix-app
-          image: remix-project/remix-app
+          image: remix-app
           no_output_timeout: 20m
           registry-url: us.gcr.io
-      - add-image-tag:
+      - gcp-gcr/tag-image:
           image: remix-app
           registry-url: us.gcr.io
-          source-tag: holmok-remix-project/remix-app
-          target-tag: holmok-remix-project/remix-app:v$CIRCLE_BUILD_NUM
+          tag: v$CIRCLE_BUILD_NUM
       - gcp-gcr/push-image:
-          digest-path: /tmp/digest.txt
           image: remix-app
           registry-url: us.gcr.io
-      - run:
-          command: |
-            echo "Digest is: $(</tmp/digest.txt)"
+          tag: v$CIRCLE_BUILD_NUM
 orbs:
   gcp-gcr: circleci/gcp-gcr@0.15.0
 version: 2.1
