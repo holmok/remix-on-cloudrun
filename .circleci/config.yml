@@ -1,5 +1,5 @@
 jobs:
-  build-node:
+  build-app:
       docker:
         - image: 'cimg/base:stable'
       steps:
