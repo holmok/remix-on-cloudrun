@@ -1,9 +1,18 @@
 jobs:
-  build-and-push:
-    executor: gcp-gcr/default
+  build-app:
+    executer: node/default
     steps:
       - node/run:
           yarn-run: build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  build-image-and-push:
+    executor: gcp-gcr/default
+    steps:
+      - attach_workspace:
+          at: .
       - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
           docker-context: ./remix-app
@@ -29,5 +38,6 @@ version: 2.1
 workflows:
   commit:
     jobs:
-      - build-and-push
+      - build-app
+      - build-image-and-push
 
