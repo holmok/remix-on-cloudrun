@@ -8,7 +8,8 @@ jobs:
           docker-context: ./remix-app
           path: ./remix-app
           workspace-root: ./remix-app
-          image: remix-app:v$CIRCLE_BUILD_NUM
+          image: remix-app
+          tag: v$CIRCLE_BUILD_NUM
           no_output_timeout: 20m
           registry-url: us.gcr.io
       - gcp-gcr/push-image:
