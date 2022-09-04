@@ -1,23 +1,29 @@
 jobs:
-  build-app:
-    executer: node/default
-    steps:
-      - node/run:
-          yarn-run: build
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
+  build-node:
+      docker:
+        - image: 'cimg/base:stable'
+      steps:
+        - run: mkdir -p app
+        - run: cd app
+        - run: git clone -b "$CIRCLE_BRANCH" "$CIRCLE_REPOSITORY_URL"
+        - node/install:
+            install-yarn: true
+            node-version: '16.13'
+        - run: yarn build
+        - persist_to_workspace:
+            root: app
+            paths:
+              - remix-app
   build-image-and-push:
     executor: gcp-gcr/default
     steps:
       - attach_workspace:
-          at: .
+          at: app
       - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
-          docker-context: ./remix-app
-          path: ./remix-app
-          workspace-root: ./remix-app
+          docker-context: app/remix-app
+          path: app/remix-app
+          workspace-root: app/remix-app
           image: remix-app
           tag: v$CIRCLE_BUILD_NUM
           no_output_timeout: 20m
