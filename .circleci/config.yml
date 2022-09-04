@@ -45,6 +45,6 @@ workflows:
       - build-app
       - build-image-and-push: 
           requires:
-              - build
+              - build-app
 
 
