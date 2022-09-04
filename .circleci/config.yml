@@ -8,17 +8,18 @@ jobs:
           docker-context: ./remix-app
           path: ./remix-app
           workspace-root: ./remix-app
-          image: remix-app
+          image: remix-app:v$CIRCLE_BUILD_NUM
           no_output_timeout: 20m
           registry-url: us.gcr.io
-      - gcp-gcr/tag-image:
-          image: remix-app
-          registry-url: us.gcr.io
-          tag: v$CIRCLE_BUILD_NUM
       - gcp-gcr/push-image:
           image: remix-app
           registry-url: us.gcr.io
           tag: v$CIRCLE_BUILD_NUM
+      - gcp-gcr/tag-image:
+          image: remix-app
+          registry-url: us.gcr.io
+          source-tag: v$CIRCLE_BUILD_NUM
+          target-tag: latest 
 orbs:
   gcp-gcr: circleci/gcp-gcr@0.15.0
 version: 2.1
