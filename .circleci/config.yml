@@ -1,3 +1,8 @@
+version: 2.1
+orbs:
+  gcp-gcr: circleci/gcp-gcr@0.15.0
+  node: circleci/node@5.0.2
+  pulumi: pulumi/pulumi@2.1.0
 jobs:
   build-app:
       docker:
@@ -7,12 +12,14 @@ jobs:
         - node/install:
             install-yarn: true
             node-version: '16.13'
+        - run: cd pulumi && npm install
         - run: cd remix-app && yarn install --frozen-lockfile
         - run: cd remix-app && yarn build
         - persist_to_workspace:
             root: /home/circleci/project
             paths:
               - remix-app
+              - pulumi
   build-image-and-push:
     executor: gcp-gcr/default
     steps:
@@ -36,10 +43,17 @@ jobs:
           registry-url: us.gcr.io
           source-tag: v$CIRCLE_BUILD_NUM
           target-tag: latest 
-orbs:
-  gcp-gcr: circleci/gcp-gcr@0.15.0
-  node: circleci/node@5.0.2
-version: 2.1
+  build-infra:
+    docker:
+      - image: 'circleci/node:10'
+    working_directory: /home/circleci/project
+    steps:
+      - attach_workspace:
+          at: /home/circleci/project 
+      - pulumi/login
+      - pulumi/update:
+          stack:  remix-app/dev
+          working_directory: /home/circleci/project/pulumi
 workflows:
   main-branch-commit:
     jobs:
@@ -47,5 +61,6 @@ workflows:
       - build-image-and-push: 
           requires:
               - build-app
-
-
+      - build-infra:
+          requires:
+              - build-image-and-push

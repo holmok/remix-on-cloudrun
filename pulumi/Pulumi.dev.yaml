@@ -1,0 +1,4 @@
+config:
+  cloudflare:apiToken:
+    secure: AAABACYiTY204pSuuNFqndn5i63UkRrT23bADv3ud+cM55svhmDiAWPs7hJymEvKYNOeQDSVS4Pd/LBetuny2f/gE61xY/s0
+  gcp:project: holmok-remix-project

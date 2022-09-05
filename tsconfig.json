@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "noEmitOnError": true,
+    "strict": true,
+    "target": "es6",
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "pulumi/*": [
+        "pulumi/**/*.ts"
+      ],
+      "remix-app/*": [
+        "remix-app/app/**/*.ts|tsx"
+      ]
+    },
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "jsx": "react"
+  }
+}
