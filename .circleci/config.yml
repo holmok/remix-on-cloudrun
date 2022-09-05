@@ -52,7 +52,7 @@ jobs:
           at: /home/circleci/project 
       - pulumi/login
       - pulumi/update:
-          stack:  remix-app/dev
+          stack:  dev
           working_directory: /home/circleci/project/pulumi
 workflows:
   main-branch-commit:
