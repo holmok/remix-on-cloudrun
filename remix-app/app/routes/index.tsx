@@ -3,7 +3,7 @@ export default function Index() {
   return (
     <>
    <h1>Hey, It's Remix!</h1>
-   <p>This is getting served from the remix app, and is running on cloud run.</p>
+   <p>This is getting served from the remix app, and is running on <strong>CloudRun</strong>.</p>
    </>
   );
 }
