@@ -1,7 +1,7 @@
 import { Service } from '@pulumi/gcp/cloudrun'
 
 export function CreateService (): Service {
-  const revisionString = (process.env.CIRCLE_WORKFLOW_ID ?? (new Date()).toISOString().replace('T', '-').replace(/:/g, '-').replace('.', '-').replace('Z', '')).slice(-5)
+  const revisionString = process.env.CIRCLE_BUILD_NUM ?? (new Date()).toISOString().replace('T', '-').replace(/:/g, '-').replace('.', '-').replace('Z', '')
   return new Service('remix-app', {
     location: 'us-central1',
     name: 'remix-app',
@@ -15,7 +15,7 @@ export function CreateService (): Service {
       },
       spec: {
         containers: [{
-          image: `us.gcr.io/holmok-remix-project/remix-app:${revisionString}`,
+          image: 'us.gcr.io/holmok-remix-project/remix-app:latest',
           ports: [{
             containerPort: 3000,
             name: 'http1'
