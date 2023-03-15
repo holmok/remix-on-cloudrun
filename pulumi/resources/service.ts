@@ -9,13 +9,13 @@ export function CreateService (): Service {
       metadata: {
         annotations: {
           'autoscaling.knative.dev/maxScale': '2',
-          'autoscaling.knative.dev/minScale': '0'
+          'autoscaling.knative.dev/minScale': '1'
         },
         name: `remix-app-${revisionString}`
       },
       spec: {
         containers: [{
-          image: 'us.gcr.io/holmok-remix-project/remix-app:latest',
+          image: `us.gcr.io/holmok-remix-project/remix-app:v${revisionString}`,
           ports: [{
             containerPort: 3000,
             name: 'http1'
