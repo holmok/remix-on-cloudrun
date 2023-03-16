@@ -8,8 +8,8 @@ export function CreateService (): Service {
     template: {
       metadata: {
         annotations: {
-          'autoscaling.knative.dev/maxScale': '2',
-          'autoscaling.knative.dev/minScale': '0'
+          'autoscaling.knative.dev/maxScale': '3',
+          'autoscaling.knative.dev/minScale': '1'
         },
         name: `remix-app-${revisionString}`
       },
