@@ -45,7 +45,7 @@ jobs:
           target-tag: latest 
   build-infra:
     docker:
-      - image: 'circleci/node:18'
+      - image: 'cimg/node:18.15.0'
     working_directory: /home/circleci/project
     steps:
       - attach_workspace:
